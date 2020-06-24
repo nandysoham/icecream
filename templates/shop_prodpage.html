@@ -1,0 +1,60 @@
+{% extends 'shop_basic.html' %}
+{% block title %}
+{{ product.pname}} - Soham Icecreams
+{% endblock title %}
+
+{% block body%}
+<div class="container my-4">
+<div class="row">
+<div class="col-md-4">
+<div class="row">
+<img src="/static/photos/icecream.jpg" width="300px" height="400px">
+</div>
+<div class="row">
+<button type="button" class="btn btn-secondary mx-2 my-2">Add To Card</button>
+<button type="button" class="btn btn-secondary my-2">Buy Now</button>
+</div>
+</div>
+<div class ="col-md-8">
+<h2><strong>{{ product.pname}}</strong></h2>
+<h5>Rs {{ product.pprice}} </h5>
+<p>{{product.pdesc}}</p>
+
+</div>
+</div>
+
+
+
+
+{% endblock body%}
+
+{% block JavaScript %}
+console.log('working');
+  if (localStorage.getItem('cart')==null) {
+    var cart={};
+  }
+  else
+  {
+    cart=JSON.parse(localStorage.getItem('cart'));
+    document.getElementById('cart').innerHTML= Object.keys(cart).length;
+    //to get the exact length of cart at the time of refreshing
+  }
+  $('.cart').click(function(){
+    //console.log('clicked');
+    idstr=this.id.toString();
+    //console.log(idstr);
+    if (cart[idstr]!=undefined){
+      cart[idstr]=cart[idstr]+1;
+    }
+    else{
+      cart[idstr]=1;
+    }
+    console.log(cart);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    //note this is used to update the cart everytime you refresh
+    document.getElementById('cart').innerHTML= Object.keys(cart).length ;
+    });
+    $('#popcart').popover();
+    document.getElementById('popcart').setAttribute('data-content','<h5>cart</h5>')
+
+ {% endblock JavaScript%}

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>Online Shop</title>
+    <!-- Css added externally by typing to make the cards stack horizontally-->
+    <style>
+      .col-md-3
+      {display: inline-block;
+      margin-left:-4px;
+      }
+
+      .col-md-3 img{
+
+      width:100%;
+      height:auto;
+      }
+
+      body .carousel-indicator li{
+      background-color: blue;
+      }
+
+      body .carousel-control-prev-icon,
+      body .carousel-control-next-icon{
+      background-color:blue;
+      }
+      body .no-padding{
+      padding-left: 0,
+      padding-right: 0;
+      }
+
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Soham Icecreams</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+      </li>
+       {% comment %} <li class="nav-item">
+        <a class="nav-link" href="#">cart(<span id = 'cart'>0</span>)</a>
+      </li> {% endcomment %}
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    {% comment %} <button type="button" class="btn btn-secondary mx-2" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
+  cart(<span id = 'cart'>0</span>)
+</button> {% endcomment %}
+    <button id="popcart" type="button" class="btn btn-secondary" data-html="true" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Cart Details">
+    cart(<span id = 'cart'>0</span>)
+    <!--data-html="true"  this was added manually to interpret html-->
+</button>
+  </div>
+</nav>
+    {% for product, range, nslides in allprod %}
+    <h4>Experience The Best of {{ product.0.pcategory}}</h4>
+    <div id="#demo{{forloop.counter}}" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+      <li data-target="#demo{{forloop.counter}}" data-slide-to="0" class="active"></li>
+      <!-- Starting the process of fetching elements from database-->
+
+      {% for i in range %}
+
+      <li data-target="#demo{{forloop.parentloop.counter}}" data-slide-to="{{i}}"></li>
+      <!-- note this data target i.e forloop.parentloop.counter is used to uniquely identify the forloop-->
+      {% endfor %}
+      <!--<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>-->
+      </ol>
+      <div class="carousel-inner">
+      
+        <div class="carousel-item active">
+          <!-- This is where the full stack of 4 cards are located-->
+          {% comment %} <div class="col-xs-3 col-sm-3 col-md-3">
+            <div class="card" style="width: 18rem;">
+                <img src="/static/photos/icecream.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{product.0.pname}}</h5>
+                  <p class="card-text">{{product.0.pdesc}}</p>
+                  <button id="pr{{ product.0.id }}" class="btn btn-primary cart">Add to Cart</button>
+                  <!--<a href="#" class="btn btn-primary">Add to Cart</a>-->
+                </div>
+            </div>
+          </div> {% endcomment %}
+
+          <!--note here product refers to that used in params which is passed to this html-->
+          {% comment %} {% for i in product|slice:"1:" %} {% endcomment %}
+          {% for i in product %}
+          <div class="col-xs-3 col-sm-3 col-md-3">
+            <div class="card" style="width: 18rem;">
+              <img src="/static/photos/icecream.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">{{i.pname}}</h5>
+                <p class="card-text">{{i.pdesc}}</p>
+                <button id="pr{{i.id}}"class="btn btn-primary cart">Add to Cart</button>
+                <!--<a href="#" class="btn btn-primary">Add to Cart</a>-->
+              </div>
+            </div>
+          </div>
+
+          {% if forloop.counter|divisibleby:"4" and forloop.counter > 0 and not forloop.last %}
+          </div><div class="carousel-item">
+          {% endif %}
+
+
+          {% endfor%}
+
+          </div>
+    
+
+</div>
+  <a class="carousel-control-prev" href="#demo{{forloop.counter}}" role="button" data-slide="prev">
+  <!--note href="#demo{{forloop.parentloop.counter}}" denotes that it refers to the original slider -->
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#demo{{forloop.counter}}" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+{% endfor %}
+</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    
+</div>
+</div>
+  </body>
+  <script>
+  console.log('working');
+  if (localStorage.getItem('cart')==null) {
+    var cart={};
+  }
+  else
+  {
+    cart=JSON.parse(localStorage.getItem('cart'));
+    document.getElementById('cart').innerHTML= Object.keys(cart).length;
+    //to get the exact length of cart at the time of refreshing
+  }
+  $('.cart').click(function(){
+    //console.log('clicked');
+    idstr=this.id.toString();
+    //console.log(idstr);
+    if (cart[idstr]!=undefined){
+      cart[idstr]=cart[idstr]+1;
+    }
+    else{
+      cart[idstr]=1;
+    }
+    console.log(cart);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    //note this is used to update the cart everytime you refresh
+    document.getElementById('cart').innerHTML= Object.keys(cart).length ;
+    });
+    $('#popcart').popover();
+    document.getElementById('popcart').setAttribute('data-content','<h5>cart</h5>')
+  </script>
+</html>
