@@ -70,10 +70,12 @@ Online shop
             <div class="card" style="width: 18rem;">
               <img src="/static/photos/icecream.jpg" class="card-img-top" alt="...">
               <div class="card-body">
-                <h5 class="card-title"><strong>{{i.pname}}</strong></h5>
-                <h5 class="card-price">Rs {{i.pprice}}</h5>
+                <h5 class="card-title" id="namepr{{i.id}}"><strong>{{i.pname}}</strong></h5>
+                <h5 class="card-price" id="pricepr{{i.id}}">Rs {{i.pprice}}</h5>
+                <!-- ########### this was added by me not on harry-->
                 <p class="card-text">{{i.pdesc|slice:"0:53"}}...</p>
-                <span id="divpr{{i.id}}">
+                <span id="divpr{{i.id}}" class="divpr">
+                <!-- the class tag was given to ensure all elements fall in the range when we can activate +/- buttons-->
                 <!-- note this is done so that we can fetch the + - button on add to cart -->
                 <button id="pr{{i.id}}"class="btn btn-primary cart">Add to Cart</button>
                 </span>
@@ -122,7 +124,9 @@ console.log('working');
   {
     cart=JSON.parse(localStorage.getItem('cart'));
     document.getElementById('cart').innerHTML= Object.keys(cart).length;
+    updatecart(cart);
     //to get the exact length of cart at the time of refreshing
+    //updating the exact amount of items considered in +/- cases
   }
   $('.cart').click(function(){
     //console.log('clicked');
@@ -134,20 +138,67 @@ console.log('working');
     else{
       cart[idstr]=1;
     }
+    updatecart(cart);
+    //after every click the numbers areupdated in +/- buttons else this would need another round of reload
     console.log(cart);
     localStorage.setItem('cart', JSON.stringify(cart));
     //note this is used to update the cart everytime you refresh
     document.getElementById('cart').innerHTML= Object.keys(cart).length ;
+    updatepopover(cart);
     });
     $('#popcart').popover();
-    document.getElementById('popcart').setAttribute('data-content','<h5>cart</h5>')
-
-    {% comment %} function updatecart(cart){
-      for (item in cart){
+    
+    //to update popover for cart
+    
+    function updatepopover(cart)
+    {
+      console.log('we are inside popover');
+      var popstr = "";
+      popstr =popstr + "<h5>Your Shopping Cart</h5>";
+      var i = 1;
+      for (var item in cart){
+        popstr = popstr + "<b>" + i+". " + "</b>";
+        popstr = popstr + document.getElementById('name' + item).innerHTML.slice(0,20) + "... Qty: " + cart[item]  + " " + document.getElementById('price' + item).innerHTML + '<br>';
+        i=i+1;
+      }
+      console.log(popstr);
+      document.getElementById('popcart').setAttribute('data-content',popstr);
+    }
+    updatepopover(cart);
+    
+    $('#popcart').popover('show');
+     
+     function updatecart(cart){
+       console.log(cart);
+      for (var item in cart){
+        document.getElementById('div'+item).innerHTML = "<button id='minus" + item + "' class ='btn btn-primary minus'> - </button> <span id='val" + item + "'>" + cart[item] + "</span> <button id='plus" + item + "' class='btn btn-primary plus'> + </button>";
 
       
-      document.getElementById('div'+item).innerHTML="<button id="minus">"
+      
       }
-    } {% endcomment %}
+    }
+    
+    $('.divpr').on("click", "button.minus", function(){
+      console.log("minus clicked");
+      a = this.id.slice(7,);
+      console.log(a);
+      cart['pr'+a]= cart['pr'+a]-1;
+      cart['pr'+a]=Math.max(0,cart['pr'+a]);
+      document.getElementById('valpr'+a).innerHTML=cart['pr'+a];
+      updatecart(cart);
+
+
+    });
+
+    $('.divpr').on("click", "button.plus", function(){
+      console.log("plus clicked");
+      a = this.id.slice(6,);
+      cart['pr'+a]= cart['pr'+a]+1;
+      cart['pr'+a]=Math.max(0,cart['pr'+a]);
+      console.log(cart['pr'+a]);
+      document.getElementById('valpr'+a).innerHTML=cart['pr'+a];
+      updatecart(cart);
+
+    });  
 
  {% endblock JavaScript%}
