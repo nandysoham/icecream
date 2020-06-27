@@ -82,7 +82,7 @@ def shop(request):
         nslides=n//4 + ceil(n/4 - n//4)
         allprod.append([prod,range(1,nslides), nslides]) 
     params={'allprod':allprod}
-    return render(request, 'shop_index.html',params)
+    return render(request, 'shop_index2.html',params)
 
 def prodview(request,id):
     #to fetch products using id

@@ -16,6 +16,7 @@ class ProductView(models.Model):
     pcategory=models.CharField( max_length=300)
     psubcategory=models.CharField( max_length=300)
     pdesc=models.CharField( max_length=1000)
+    pfulldesc=models.TextField(default="")
     pprice=models.IntegerField()
     pdate=models.DateField()
     
