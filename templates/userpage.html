@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% block title%}
 Userpage
-{%endblock title%}
-{%block body%}
-welcome {{request.user.username}}
-{%endblock body%}
+{% endblock title%}
+{% block body%}
+<!--welcome {{request.user.username}}-->
+<h5>hello {{request.user.username}} </h5>
+<h5>hello {{request.user.email}} </h5>
+{% endblock body%}
 

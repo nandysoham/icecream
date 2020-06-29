@@ -4,9 +4,10 @@ from datetime import datetime
 from home.models import Contact,ProductView
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from math import ceil
+
 
 
 def index(request):
@@ -31,17 +32,22 @@ def contact(request):
 
 def services(request):
     return render(request, 'services.html')
-def login(request):
+def ulogin(request):
 
     if request.method=="POST":
         username=request.POST.get('username')
         password=request.POST.get('password')
 
-        user = authenticate(username=username, password=password)
+        user = authenticate(request,username=username, password=password)
+
         if user is not None:
-            return render(request,'userpage.html')
+            login(request, user)
+            #this creates the user"s id
+            #return render(request,'userpage.html')
+            return redirect("/userpage")
         else:
             return render(request,'login.html')
+            
             
             # No backend authenticated the credentials
     
@@ -55,10 +61,11 @@ def logout(request):
     return render(request,'login.html')
 
 def userpage(request):
-    if request.user.isanonymous:
-        return render(request,'login.html')
-    else:
-        return render(request,'userpage.html')
+    if request.user.is_anonymous:
+        #return render(request,'login.html')
+        return redirect("/login")
+    
+    return render(request,'userpage.html')
 
 def shop(request):
     products=ProductView.objects.all()

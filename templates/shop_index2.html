@@ -154,22 +154,29 @@ console.log('working');
     {
       console.log('we are inside popover');
       var popstr = "";
-      popstr =popstr + "<h5>Your Shopping Cart</h5>";
+      popstr =popstr + "<h5>Your Shopping Cart</h5> <div class='mx-2 my-2'>";
       var i = 1;
       var price = 0;
       for (var item in cart){
+        if (parseInt(cart[item])>0){ 
         popstr = popstr + "<b>" + i+". " + "</b>";
         price1=document.getElementById('price' + item).innerHTML.slice(3,);
         i_price=parseInt(price1);
         qty = parseInt(cart[item]);
         price = price + (i_price * qty) ;
-
+        
         
         popstr = popstr + document.getElementById('name' + item).innerHTML.slice(0,20) + "... Qty: " + cart[item]  + " " + document.getElementById('price' + item).innerHTML + '<br>';
         i=i+1;
+       
+        }
       }
+      
       console.log(price);
       popstr = popstr +  "TOTAL Rs " + price  ;
+      //popstr = popstr + "<a href ='/login'> <button class='btn btn-primary' id='checkout'> Checkout</button> <button class='btn btn-primary' id='clearcart' onclick = 'clearcart()'> Clear Cart</button>";
+      popstr = popstr + "</div> <a href='/login'><button class='btn btn-primary' id ='checkout'>Checkout</button></a> <button class='btn btn-primary' onclick='clearcart()' id ='clearcart'>Clear Cart</button>     "
+
       console.log(popstr);
       document.getElementById('popcart').setAttribute('data-content',popstr);
     }
@@ -181,15 +188,40 @@ console.log('working');
        console.log(cart);
       for (var item in cart){
           console.log(item);
+          if (parseInt(cart(item))>-1) {
         document.getElementById('div'+item).innerHTML = "<button id='minus" + item + "' class ='btn btn-primary minus'> - </button> <span id='val" + item + "'>" + cart[item] + "</span> <button id='plus" + item + "' class='btn btn-primary plus'> + </button>";
         {% comment %} console.log("minus" + item + "");
         console.log('plus" + item + "'); {% endcomment %}
       
-      
+          }
       }
+      localStorage.setItem('cart',JSON.stringify(cart));
+      document.getElementById('cart').innerHTML = Object.keys(cart).length;
+      updatepopover(cart);
+      $('#popcart').popover('show');
+      //this is necessary to show the cart everytime you update
     }
     
-   
+  function clearcart(){
+    cart=JSON.parse(localStorage.getItem('cart'));
+    for ( var item in cart){
+      document.getElementById('div'+ item).innerHTML = '<button id="' + item + '"class="btn btn-primary cart">Add to Cart</button>'
+
+
+    //to turn the +/- to add to cart option    
+    }
+    localStorage.clear();
+    cart={};
+    updatecart(cart);
+    
+
+  }
+
+
+
+
+
+
 
     $('.divpr').on("click", "button.plus", function(){
       console.log("plus clicked");
@@ -198,20 +230,22 @@ console.log('working');
       cart['pr'+a]=Math.max(0,cart['pr'+a]);
       console.log(cart['pr'+a]);
       document.getElementById('valpr'+a).innerHTML=cart['pr'+a];
-      localStorage.setItem('cart', JSON.stringify(cart));
+      
       updatecart(cart);
+      
 
     });  
 
     $('.divpr').on("click", "button.minus", function(){
       console.log("minus clicked");
       a = this.id.slice(7,);
-      cart['pr'+a]= cart['pr'+a]-1;
-      cart['pr'+a]=Math.max(0,cart['pr'+a]);
+      cart['pr' + a]= cart['pr' + a] - 1;
+      cart['pr' + a]=Math.max(0,cart['pr' + a]);
       console.log(cart['pr'+a]);
       document.getElementById('valpr'+a).innerHTML=cart['pr'+a];
-      localStorage.setItem('cart', JSON.stringify(cart));
+      
       updatecart(cart);
+      
 
     });  
 
