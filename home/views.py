@@ -55,6 +55,11 @@ def ulogin(request):
     return render(request,'login.html')
     # u: soham1, samir120802
 
+def checkout(request):
+    return render(request,'shop_checkout.html')
+
+
+
 def logout(request):
     logout(request)
 

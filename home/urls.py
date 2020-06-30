@@ -13,6 +13,7 @@ urlpatterns = [
     path('logout',views.logout, name='logout'),
     path('userpage',views.userpage, name='userpage'),
     path('shop',views.shop, name='shop'),
+    path('checkout',views.checkout, name='checkout'),
     path('shop_prodpage/<int:id>',views.prodview, name='prodview')
 
 

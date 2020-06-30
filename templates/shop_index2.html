@@ -133,10 +133,16 @@ console.log('working');
     idstr=this.id.toString();
     //console.log(idstr);
     if (cart[idstr]!=undefined){
-      cart[idstr]=cart[idstr]+1;
+      qty = cart[idstr][0];
+      name = "my item";
+      price = "price";
+      cart[idstr][0]=cart[idstr][0]+1;
     }
     else{
-      cart[idstr]=1;
+      qty = 1;
+      name = "my item";
+      price = 'price';
+      cart[idstr]=[qty, name, price];
     }
     updatecart(cart);
     //after every click the numbers areupdated in +/- buttons else this would need another round of reload
@@ -158,7 +164,7 @@ console.log('working');
       var i = 1;
       var price = 0;
       for (var item in cart){
-        if (parseInt(cart[item])>0){ 
+        if (parseInt(cart[item][0])>0){ 
         popstr = popstr + "<b>" + i+". " + "</b>";
         price1=document.getElementById('price' + item).innerHTML.slice(3,);
         i_price=parseInt(price1);
@@ -166,7 +172,7 @@ console.log('working');
         price = price + (i_price * qty) ;
         
         
-        popstr = popstr + document.getElementById('name' + item).innerHTML.slice(0,20) + "... Qty: " + cart[item]  + " " + document.getElementById('price' + item).innerHTML + '<br>';
+        popstr = popstr + document.getElementById('name' + item).innerHTML.slice(0,20) + "... Qty: " + cart[item][0]  + " " + document.getElementById('price' + item).innerHTML + '<br>';
         i=i+1;
        
         }
@@ -175,7 +181,7 @@ console.log('working');
       console.log(price);
       popstr = popstr +  "TOTAL Rs " + price  ;
       //popstr = popstr + "<a href ='/login'> <button class='btn btn-primary' id='checkout'> Checkout</button> <button class='btn btn-primary' id='clearcart' onclick = 'clearcart()'> Clear Cart</button>";
-      popstr = popstr + "</div> <a href='/login'><button class='btn btn-primary' id ='checkout'>Checkout</button></a> <button class='btn btn-primary' onclick='clearcart()' id ='clearcart'>Clear Cart</button>     "
+      popstr = popstr + "</div> <a href='/checkout'><button class='btn btn-primary' id ='checkout'>Checkout</button></a> <button class='btn btn-primary' onclick='clearcart()' id ='clearcart'>Clear Cart</button>     "
 
       console.log(popstr);
       document.getElementById('popcart').setAttribute('data-content',popstr);
@@ -188,12 +194,12 @@ console.log('working');
        console.log(cart);
       for (var item in cart){
           console.log(item);
-          if (parseInt(cart(item))>-1) {
-        document.getElementById('div'+item).innerHTML = "<button id='minus" + item + "' class ='btn btn-primary minus'> - </button> <span id='val" + item + "'>" + cart[item] + "</span> <button id='plus" + item + "' class='btn btn-primary plus'> + </button>";
+          {% comment %} if (parseInt(cart(item))>-1) { {% endcomment %}
+        document.getElementById('div'+item).innerHTML = "<button id='minus" + item + "' class ='btn btn-primary minus'> - </button> <span id='val" + item + "'>" + cart[item][0] + "</span> <button id='plus" + item + "' class='btn btn-primary plus'> + </button>";
         {% comment %} console.log("minus" + item + "");
         console.log('plus" + item + "'); {% endcomment %}
       
-          }
+          
       }
       localStorage.setItem('cart',JSON.stringify(cart));
       document.getElementById('cart').innerHTML = Object.keys(cart).length;
@@ -226,10 +232,10 @@ console.log('working');
     $('.divpr').on("click", "button.plus", function(){
       console.log("plus clicked");
       a = this.id.slice(6,);
-      cart['pr'+a]= cart['pr'+a]+1;
-      cart['pr'+a]=Math.max(0,cart['pr'+a]);
-      console.log(cart['pr'+a]);
-      document.getElementById('valpr'+a).innerHTML=cart['pr'+a];
+      cart['pr'+a][0]= cart['pr'+a][0]+1;
+      cart['pr'+a][0]=Math.max(0,cart['pr'+a][0]);
+      console.log(cart['pr'+a][0]);
+      document.getElementById('valpr'+a).innerHTML=cart['pr'+a][0];
       
       updatecart(cart);
       
@@ -239,10 +245,10 @@ console.log('working');
     $('.divpr').on("click", "button.minus", function(){
       console.log("minus clicked");
       a = this.id.slice(7,);
-      cart['pr' + a]= cart['pr' + a] - 1;
-      cart['pr' + a]=Math.max(0,cart['pr' + a]);
-      console.log(cart['pr'+a]);
-      document.getElementById('valpr'+a).innerHTML=cart['pr'+a];
+      cart['pr' + a][0]= cart['pr' + a][0] - 1;
+      cart['pr' + a][0]=Math.max(0,cart['pr' + a][0]);
+      console.log(cart['pr'+a][0]);
+      document.getElementById('valpr'+a).innerHTML=cart['pr'+a][0];
       
       updatecart(cart);
       
