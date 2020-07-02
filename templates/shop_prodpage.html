@@ -30,7 +30,8 @@
 {% endblock body%}
 
 {% block JavaScript %}
-console.log('working');
+<script>
+{% comment %} console.log('working');
   if (localStorage.getItem('cart')==null) {
     var cart={};
   }
@@ -56,6 +57,55 @@ console.log('working');
     document.getElementById('cart').innerHTML= Object.keys(cart).length ;
     });
     $('#popcart').popover();
-    document.getElementById('popcart').setAttribute('data-content','<h5>cart</h5>')
+    document.getElementById('popcart').setAttribute('data-content','<h5>cart</h5>') {% endcomment %}
 
+
+if (localStorage.getItem('cart')==null) {
+    var cart={};
+  }
+  else
+  {
+    cart=JSON.parse(localStorage.getItem('cart'));
+    document.getElementById('cart').innerHTML= Object.keys(cart).length;
+    //to get the exact length of cart at the time of refreshing
+  }
+
+
+  function updatepopover(cart)
+    {
+      //console.log('we are inside popover');
+      var popstr = "";
+      popstr =popstr + "<h5>Your Shopping Cart</h5> <div class='mx-2 my-2'>";
+      var i = 1;
+      var price = 0;
+      for (var item in cart){
+        if (parseInt(cart[item][0])>0){ 
+        popstr = popstr + "<b>" + i+". " + "</b>";
+        price1=cart[item][2];
+        i_price=parseInt(price1);
+        qty = parseInt(cart[item][0]);
+        price = price + (i_price * qty) ;
+        proddesc=cart[item][1];
+        
+        
+        popstr = popstr + proddesc.slice(0,15) + "... Qty: " + cart[item][0]  + " Rs  " + i_price + '<br>';
+        i=i+1;
+       
+        }
+      }
+      
+      //console.log(price);
+      popstr = popstr +  "TOTAL Rs " + price  ;
+      //popstr = popstr + "<a href ='/login'> <button class='btn btn-primary' id='checkout'> Checkout</button> <button class='btn btn-primary' id='clearcart' onclick = 'clearcart()'> Clear Cart</button>";
+      popstr = popstr + "</div> <a href='/checkout'><button class='btn btn-primary' id ='checkout'>Checkout</button></a> <button class='btn btn-primary' onclick='clearcart()' id ='clearcart'>Clear Cart</button>     "
+
+      //console.log(popstr);
+      document.getElementById('popcart').setAttribute('data-content',popstr);
+    }
+updatepopover(cart);
+$('#popcart').popover('show');
+
+
+    
+</script>
  {% endblock JavaScript%}
