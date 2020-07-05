@@ -93,6 +93,7 @@ def shop(request):
         n=len(prod)
         nslides=n//4 + ceil(n/4 - n//4)
         allprod.append([prod,range(1,nslides), nslides]) 
+        # dont know why harry kept it range(1, nslides)
     params={'allprod':allprod}
     return render(request, 'shop_index2.html',params)
 
@@ -103,4 +104,35 @@ def prodview(request,id):
     return render(request, 'shop_prodpage.html',{'product': product[0]})
     #note product is passing as a list and 1 item would be present for 1 product for sure
     #note it fetches all description of the particular icecream
+
+
+def searchmatch(query, item):
+        if str(query).lower() in str(item.pdesc).lower() or str(query).lower() in str(item.pname).lower() or str(query).lower() in str(item.pcategory).lower() or str(query).lower() in str(item.psubcategory).lower():
+            return True
+        else:
+            return False
+
+
+def search(request):
+    query = request.GET.get('search')
+    #products=ProductView.objects.all()
+    allprod=[]
+    catprod=ProductView.objects.values('pcategory','id')
+    cat={item['pcategory'] for item in catprod}
+    for cat1 in cat:
+        prodall=ProductView.objects.filter( pcategory = cat1)
+        prod = [item for item in prodall if searchmatch(query, item)]
+        n=len(prod)
+        print(n)
+        nslides=n//4 + ceil(n/4 - n//4)
+        if len(prod) != 0:
+            allprod.append([prod,range(1,nslides), nslides]) 
+    params={'allprod':allprod,"msg" : ""}
+
+    if len(allprod)==0:
+        params = {'msg':"Your Item is not available"}
+    print(allprod)    
+
+
+    return render(request, 'shop_searchpage.html',params)
 

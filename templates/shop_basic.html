@@ -4,6 +4,11 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
     <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">-->
@@ -26,10 +31,10 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="/shop">Home<span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/shop"><i class="fa fa-home" aria-hidden="true"></i>Home<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/contact">Contact Us</a>
+        <a class="nav-link" href="/contact"><i class="fa fa-phone" aria-hidden="true"></i>Contact Us</a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -49,15 +54,15 @@
         <a class="nav-link" href="#">cart(<span id = 'cart'>0</span>)</a>
       </li> {% endcomment %}
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <form method ='get' action ='/search' class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" name='search' id='search' aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
     {% comment %} <button type="button" class="btn btn-secondary mx-2" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
   cart(<span id = 'cart'>0</span>)
 </button> {% endcomment %}
     <button id="popcart" type="button" class="btn btn-secondary" data-html="true" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Cart Details">
-    cart(<span id = 'cart'>0</span>)
+    <i class="fa fa-shopping-cart" aria-hidden="true"></i>(<span id = 'cart'>0</span>)
     <!--data-html="true"  this was added manually to interpret html-->
 </button>
   </div>
@@ -79,6 +84,61 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js
 " integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
+
+
+
+
+<!-- Footer -->
+
+  <footer class="w3-padding-64 w3-light-grey w3-small w3-center my-5" id="footer">
+    <div class="w3-row-padding">
+      <div class="w3-col s4">
+        <h4>Contact</h4>
+        <p>Questions? Go ahead.</p>
+        <form action="/action_page.php" target="_blank">
+          <p><input class="w3-input w3-border" type="text" placeholder="Name" name="Name" required></p>
+          <p><input class="w3-input w3-border" type="text" placeholder="Email" name="Email" required></p>
+          <p><input class="w3-input w3-border" type="text" placeholder="Subject" name="Subject" required></p>
+          <p><input class="w3-input w3-border" type="text" placeholder="Message" name="Message" required></p>
+          <button type="submit" class="w3-button w3-block w3-black">Send</button>
+        </form>
+      </div>
+
+      <div class="w3-col s4">
+        <h4>About</h4>
+        <p><a href="/about">About us</a></p>
+        <p><a href="#">We're hiring</a></p>
+        <p><a href="/services">Support</a></p>
+        <p><a href="/shop">Find store</a></p>
+        <p><a href="#">Shipment</a></p>
+        <p><a href="#">Payment</a></p>
+        <p><a href="#">Gift card</a></p>
+        <p><a href="#">Return</a></p>
+        <p><a href="#">Help</a></p>
+      </div>
+
+      <div class="w3-col s4 w3-justify">
+        <h4>Store</h4>
+        <p><i class="fa fa-fw fa-map-marker"></i> Soham Icecreams</p>
+        <p><i class="fa fa-fw fa-phone"></i> 0000 9900223</p>
+        <p><i class="fa fa-fw fa-envelope"></i> soham@gmail.com</p>
+        <h4>We accept</h4>
+        <p><i class="fa fa-fw fa-cc-visa"></i> Visa</p>
+        <p><i class="fa fa-fw fa-cc-mastercard"></i> Mastercard</p>
+        <p><i class="fa fa-fw fa-credit-card"></i> Credit Card</p>
+        <p><i class="fa fa-fw fa-credit-card"></i> Debit Card</p>
+        <p><i class="fa fa-fw fa-paypal"></i> Paypal</p>
+        <br>
+        <a href='https://www.facebook.com/amul.coop/'><i class="fa fa-facebook-official w3-hover-opacity w3-large"></i></a>
+        <a href='https://www.instagram.com/amul_india/'><i class="fa fa-instagram w3-hover-opacity w3-large"></i></a>
+        <i class="fa fa-snapchat w3-hover-opacity w3-large"></i>
+        <i class="fa fa-pinterest-p w3-hover-opacity w3-large"></i>
+        <i class="fa fa-twitter w3-hover-opacity w3-large"></i>
+        <i class="fa fa-linkedin w3-hover-opacity w3-large"></i>
+      </div>
+    </div>
+  </footer>
+  
 
   </body>
 {% block JavaScript %} {% endblock JavaScript%}

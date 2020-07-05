@@ -11,13 +11,13 @@
 <img src="/static/photos/icecream.jpg" width="300px" height="400px">
 </div>
 <div class="row">
-<button type="button" class="btn btn-secondary mx-2 my-2">Add To Card</button>
-<button type="button" class="btn btn-secondary my-2">Buy Now</button>
+<span id='divpr{{product.id}}'><button type="button" class="btn btn-secondary mx-2 my-2 cart" id='pr{{product.id}}'>Add To Card</button></span>
+<button type="button" class="btn btn-primary my-2">Buy Now</button>
 </div>
 </div>
 <div class ="col-md-8">
-<h2><strong>{{ product.pname}}</strong></h2>
-<h5>Rs {{ product.pprice}} </h5>
+<h2 id='namepr{{product.id}}'>{{ product.pname}}</h2>
+<h5 id='pricepr{{product.id}}'>Rs {{ product.pprice}} </h5>
 <p>{{product.pdesc}}</p>
 <p>{{product.pfulldesc}}</p>
 
@@ -70,20 +70,63 @@ if (localStorage.getItem('cart')==null) {
     //to get the exact length of cart at the time of refreshing
   }
 
+ $('.cart').click(function(){
+    //console.log('clicked');
+    idstr=this.id.toString();
+    //namepr{{i.id}}
+    
+    //price=this.pprice.toString();
+    //console.log(price);
+    //console.log(idstr);
+    if (cart[idstr]!=undefined){
+      qty = cart[idstr][0];
+      var n='name'+idstr;
+      console.log(n);
+      var p='price'+idstr;
+      //name = document.getElementById(n).innerHTML;
+      //price = document.getElementById(p).innerHTML;
+      //console.log(name);
+      cart[idstr][0]=cart[idstr][0]+1;
+    }
+    else{
+      qty = 1;
 
+      var n='name'+idstr;
+      var p='price'+idstr;
+      console.log(n);
+      name = document.getElementById(n).innerHTML;
+      price = document.getElementById(p).innerHTML.slice(3,);
+      //console.log(name);
+      //console.log(price);
+      
+      cart[idstr]=[qty, name, price];
+      console.log(cart[idstr][0]);
+      console.log(cart[idstr][1]);
+      console.log(cart[idstr][2]);
+
+    }
+ })
+    updatecart(cart);
+
+
+
+  // NOTE THIS WAS ALREADY PRESENT, SHOWED NO ERRORS
   function updatepopover(cart)
     {
+      var pid='pr'+ {{product.id}};
       //console.log('we are inside popover');
       var popstr = "";
       popstr =popstr + "<h5>Your Shopping Cart</h5> <div class='mx-2 my-2'>";
       var i = 1;
       var price = 0;
       for (var item in cart){
+        
         if (parseInt(cart[item][0])>0){ 
         popstr = popstr + "<b>" + i+". " + "</b>";
         price1=cart[item][2];
         i_price=parseInt(price1);
         qty = parseInt(cart[item][0]);
+        //could be a possible error
         price = price + (i_price * qty) ;
         proddesc=cart[item][1];
         
@@ -91,6 +134,7 @@ if (localStorage.getItem('cart')==null) {
         popstr = popstr + proddesc.slice(0,15) + "... Qty: " + cart[item][0]  + " Rs  " + i_price + '<br>';
         i=i+1;
        
+        
         }
       }
       
@@ -104,6 +148,145 @@ if (localStorage.getItem('cart')==null) {
     }
 updatepopover(cart);
 $('#popcart').popover('show');
+
+
+function updatecart(cart){
+  var pid='pr'+ {{product.id}};
+  //console.log(pid); 
+       //console.log(cart);
+      for (var item in cart){
+        //console.log(item);
+        if (item== pid){
+          console.log('div'+item);
+          console.log(cart[item][0]);
+          console.log('div'+item);
+          {% comment %} if (parseInt(cart(item))>-1) { {% endcomment %}
+        document.getElementById('div'+item).innerHTML = "<button id='minus" + item + "' class ='btn btn-primary minus my-2'> - </button> <span id='val" + item + "'>" + cart[item][0] + "</span> <button id='plus" + item + "' class='btn btn-primary plus my-2 mx-2'> + </button>";
+        {% comment %} console.log("minus" + item + "");
+        console.log('plus" + item + "'); {% endcomment %}
+      
+          
+      }}
+      localStorage.setItem('cart',JSON.stringify(cart));
+      document.getElementById('cart').innerHTML = Object.keys(cart).length;
+      updatepopover(cart);
+      $('#popcart').popover('show');
+      //this is necessary to show the cart everytime you update
+    }
+    
+  function clearcart(){
+    cart=JSON.parse(localStorage.getItem('cart'));
+    for ( var item in cart){
+      document.getElementById('div'+ item).innerHTML = '<button id="' + item + '"class="btn btn-primary cart">Add to Cart</button>'
+
+
+    //to turn the +/- to add to cart option    
+    }
+    localStorage.clear();
+    cart={};
+    updatecart(cart);
+    
+
+  }
+
+
+
+
+
+
+    var clickp= '.divpr'+ {{product.id}}
+    console.log('.divpr');
+
+    {% comment %} $('.plus').click(function(){
+       console.log("plus clicked");
+      a = this.id.slice(6,);
+      console.log(a);
+      cart['pr'+a][0]= cart['pr'+a][0]+1;
+      cart['pr'+a][0]=Math.max(0,cart['pr'+a][0]);
+      //console.log(cart['pr'+a][0]);
+      document.getElementById('valpr'+a).innerHTML=cart['pr'+a][0];
+
+      var n='namepr'+a;
+      var p='pricepr'+a;
+      //console.log(n);
+      //console.log(p);
+      
+      name = document.getElementById(n).innerHTML;
+      price = document.getElementById(p).innerHTML.slice(3,);
+      //console.log(name);
+      //console.log(price);
+      
+      //cart[idstr]=[qty, name, price];
+      //console.log(cart['pr'+a][0]);
+      //console.log(cart['pr'+a][1]);
+      //console.log(cart['pr'+a][2]);
+
+
+
+
+
+      updatecart(cart);
+      
+
+
+
+    }); {% endcomment %}
+
+
+
+    $('.divpr').on("click", "button.plus", function(){
+      console.log("plus clicked");
+      a = this.id.slice(6,);
+      console.log(a);
+      cart['pr'+a][0]= cart['pr'+a][0]+1;
+      cart['pr'+a][0]=Math.max(0,cart['pr'+a][0]);
+      //console.log(cart['pr'+a][0]);
+      document.getElementById('valpr'+a).innerHTML=cart['pr'+a][0];
+
+      var n='namepr'+a;
+      var p='pricepr'+a;
+      //console.log(n);
+      //console.log(p);
+      
+      name = document.getElementById(n).innerHTML;
+      price = document.getElementById(p).innerHTML.slice(3,);
+      //console.log(name);
+      //console.log(price);
+      
+      //cart[idstr]=[qty, name, price];
+      //console.log(cart['pr'+a][0]);
+      //console.log(cart['pr'+a][1]);
+      //console.log(cart['pr'+a][2]);
+
+
+
+
+
+      updatecart(cart);
+      
+
+    }); 
+
+    $('.divpr').on("click", "button.minus", function(){
+      //console.log("minus clicked");
+      a = this.id.slice(7,);
+      cart['pr' + a][0]= cart['pr' + a][0] - 1;
+      cart['pr' + a][0]=Math.max(0,cart['pr' + a][0]);
+      //console.log(cart['pr'+a][0]);
+      document.getElementById('valpr'+a).innerHTML=cart['pr'+a][0];
+
+
+      var n='namepr'+a;
+      var p='pricepr'+a;
+
+      name = document.getElementById(n).innerHTML;
+      price = document.getElementById(p).innerHTML.slice(3,);
+      
+      updatecart(cart);
+      
+
+    }
+    );  
 
 
     
