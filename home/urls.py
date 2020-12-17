@@ -15,7 +15,8 @@ urlpatterns = [
     path('shop',views.shop, name='shop'),
     path('checkout',views.checkout, name='checkout'),
     path('search',views.search, name='search'),
-    path('shop_prodpage/<int:id>',views.prodview, name='prodview')
+    path('shop_prodpage/<int:id>',views.prodview, name='prodview'),
+    path('comingnext', views.comingnext, name ='comingnext')
 
 
 

@@ -27,11 +27,14 @@ def contact(request):
         contact=Contact(name=name,email=email,phone=phone,desc=desc,date=datetime.today())
         contact.save()
         messages.success(request, 'Your message is saved')
-    
+
     return render(request, 'contact.html')
 
 def services(request):
     return render(request, 'services.html')
+
+def comingnext(request):
+    return render(request,'comingnext.html')
 def ulogin(request):
 
     if request.method=="POST":
@@ -47,10 +50,10 @@ def ulogin(request):
             return redirect("/userpage")
         else:
             return render(request,'login.html')
-            
-            
+
+
             # No backend authenticated the credentials
-    
+
 
     return render(request,'login.html')
     # u: soham1, samir120802
@@ -69,7 +72,7 @@ def userpage(request):
     if request.user.is_anonymous:
         #return render(request,'login.html')
         return redirect("/login")
-    
+
     return render(request,'userpage.html')
 
 def shop(request):
@@ -92,7 +95,7 @@ def shop(request):
         prod=ProductView.objects.filter( pcategory = cat1)
         n=len(prod)
         nslides=n//4 + ceil(n/4 - n//4)
-        allprod.append([prod,range(1,nslides), nslides]) 
+        allprod.append([prod,range(1,nslides), nslides])
         # dont know why harry kept it range(1, nslides)
     params={'allprod':allprod}
     return render(request, 'shop_index2.html',params)
@@ -126,13 +129,12 @@ def search(request):
         print(n)
         nslides=n//4 + ceil(n/4 - n//4)
         if len(prod) != 0:
-            allprod.append([prod,range(1,nslides), nslides]) 
+            allprod.append([prod,range(1,nslides), nslides])
     params={'allprod':allprod,"msg" : ""}
 
     if len(allprod)==0:
         params = {'msg':"Your Item is not available"}
-    print(allprod)    
+    print(allprod)
 
 
     return render(request, 'shop_searchpage.html',params)
-
